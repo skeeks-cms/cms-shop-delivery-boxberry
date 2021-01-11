@@ -15,7 +15,7 @@
 		}
 	],
 	"require": {
-		"skeeks/cms": "^5.1.0 || dev-master",
+		"skeeks/cms": "^5.0 || dev-master",
 	  	"skeeks/cms-shop": "^2.3 || dev-master"
 	},
     "autoload": {
