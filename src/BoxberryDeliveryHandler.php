@@ -136,7 +136,7 @@ class BoxberryDeliveryHandler extends DeliveryHandler
      */
     public function renderCheckoutForm(ActiveForm $activeForm, ShopOrder $shopOrder)
     {
-        \Yii::$app->view->registerJsFile("//points.boxberry.ru/js/boxberry.js");
+        //\Yii::$app->view->registerJsFile("//points.boxberry.ru/js/boxberry.js");
         $apiKey = $this->api_key;
         $custom_city = $this->custom_city;
 
@@ -145,6 +145,18 @@ class BoxberryDeliveryHandler extends DeliveryHandler
 
         \Yii::$app->view->registerJs(<<<JS
 
+if (!$("#sx-boxberry-js").length) {
+    var script = document.createElement('script');
+    script.src = "//points.boxberry.ru/js/boxberry.js";
+    script.id = "sx-boxberry-js";
+    document.head.append(script);
+    
+    /*script.onload = function() {
+      // в скрипте создаётся вспомогательная функция с именем "_"
+      alert("pickpoint"); // функция доступна
+    };*/
+}
+
 $("#sx-boxberry-open").on("click", function() {
     boxberry.open(callback_function, '1$8f7ca7918b542c67a6d08d6ee72f8296', '{$custom_city}', '', {$money}, {$weight}, 0 , 20, 20, 20); return false;
 });
@@ -152,6 +164,7 @@ $("#sx-boxberry-open").on("click", function() {
 function callback_function(result){
     
     var data = JSON.stringify(result);
+    console.log(data);
     $("#shoporder-delivery_handler_data_jsoned").empty().append(data).change();
     /*if (result.prepaid=='1') {
         alert('Отделение работает только по предоплате!');
