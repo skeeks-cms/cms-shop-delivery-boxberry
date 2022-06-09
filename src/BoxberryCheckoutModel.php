@@ -54,17 +54,47 @@ class BoxberryCheckoutModel extends DeliveryCheckoutModel
         ]);
     }
 
+
     /**
      * @return array
      */
     public function getVisibleAttributes()
     {
-        return [
-            'id',
-            'address',
-            'phone',
-            'workschedule',
-        ];
+        $result = [];
+
+        if ($this->name) {
+            $result['name'] = [
+                'value' => $this->name,
+                'label' => 'Город',
+            ];
+        }
+        if ($this->address) {
+            $result['address'] = [
+                'value' => $this->address,
+                'label' => 'Адрес',
+            ];
+        }
+        if ($this->phone) {
+            $result['phone'] = [
+                'value' => $this->phone,
+                'label' => 'Телефон',
+            ];
+        }
+        if ($this->workschedule) {
+            $result['workschedule'] = [
+                'value' => $this->workschedule,
+                'label' => 'Рабочее время',
+            ];
+        }
+
+        if ($this->id) {
+            $result['id'] = [
+                'value' => $this->id,
+                'label' => 'Код ПВЗ',
+            ];
+        }
+
+        return $result;
     }
 
     /**
@@ -72,6 +102,9 @@ class BoxberryCheckoutModel extends DeliveryCheckoutModel
      */
     public function getMoney()
     {
-        return new Money((string) $this->price, $this->shopOrder->currency_code);
+        if ((float)$this->price) {
+            return new Money((string)$this->price, $this->shopOrder->currency_code);
+        }
+        return parent::getMoney();
     }
 }

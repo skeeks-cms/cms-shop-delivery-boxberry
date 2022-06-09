@@ -3,7 +3,9 @@ return [
     'components' => [
         'shop' => [
             'deliveryHandlers'             => [
-                \skeeks\cms\shop\boxberry\BoxberryDeliveryHandler::class
+                'boxberry' => [
+                    'class' => \skeeks\cms\shop\boxberry\BoxberryDeliveryHandler::class
+                ]
             ]
         ],
     ],
